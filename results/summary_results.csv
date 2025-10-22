@@ -1,0 +1,5 @@
+filename,total_rows,total_matches,percent_correct
+base_results-1.csv,211,190,90.0474
+test1_finetuned.csv,211,63,29.8578
+test2_finetuned.csv,211,142,67.2986
+test3_finetuned.csv,211,153,72.5118
