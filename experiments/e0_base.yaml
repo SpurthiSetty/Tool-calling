@@ -1,0 +1,4 @@
+# Baseline: the untouched model, scored with the new strict parser.
+name: e0_base
+model: Qwen/Qwen3-4B-Instruct-2507
+train: null

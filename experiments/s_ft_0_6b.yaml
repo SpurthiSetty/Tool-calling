@@ -1,0 +1,5 @@
+# Smaller model with the e5 recipe (clean labels, completion-only loss, lr 5e-5).
+name: s_ft_0_6b
+model: Qwen/Qwen3-0.6B
+data: {drop_noisy: true, normalize_labels: true}
+train: {epochs: 3, mask_prompt: true, learning_rate: 5.0e-5}

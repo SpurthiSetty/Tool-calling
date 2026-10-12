@@ -1,5 +1,5 @@
-trl==0.23.0
-bitsandbytes==0.47.0
-torch==2.6.0
-peft==0.17.1
-transformers==4.57.1
+mlx==0.32.3
+mlx-lm==0.32.0
+pytest==9.1.1
+PyYAML==6.0.3
+transformers==5.19.0

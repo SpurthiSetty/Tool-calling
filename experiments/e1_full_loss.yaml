@@ -1,0 +1,5 @@
+# Loss over the whole sequence (system prompt, tool schema, query and answer),
+# like the old notebooks 1-2. The model spends its capacity relearning the prompt.
+name: e1_full_loss
+model: Qwen/Qwen3-4B-Instruct-2507
+train: {epochs: 3, mask_prompt: false}

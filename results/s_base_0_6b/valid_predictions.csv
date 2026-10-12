@@ -1,0 +1,190 @@
+id,query,predicted_text,predicted_calls,expected_calls,match,match_lenient,category,noisy
+4717,"Estimate the bacterial population after 50 minutes if the initial population is 2500, the growth rate is 0.025 per minute, and the doubling time is 22 minutes.","<tool_call>
+{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.025, ""time"": 50, ""doubling_time"": 22}}
+</tool_call>","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.025, ""time"": 50, ""doubling_time"": 22}}]","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.025, ""time"": 50, ""doubling_time"": 22}}]",True,True,correct,False
+6016,What is the bacterial population after 90 minutes if the initial population was 2500 and the growth rate is 0.01 per minute?,"<tool_call>
+{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.01, ""time"": 90}}
+</tool_call>","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.01, ""time"": 90}}]","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.01, ""time"": 90}}]",True,True,correct,False
+9125,Calculate the bacterial population after 2 hours if the initial count was 3000 and the growth rate is 0.01 per minute. The doubling time for these bacteria is 30 minutes.,"<tool_call>
+{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 3000, ""growth_rate"": 0.01, ""time"": 2, ""doubling_time"": 30}}
+</tool_call>","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 3000, ""growth_rate"": 0.01, ""time"": 2, ""doubling_time"": 30}}]","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 3000, ""growth_rate"": 0.01, ""time"": 120, ""doubling_time"": 30}}]",False,False,wrong_args,False
+33665,"A microbiologist starts with 6000 bacteria and wants to know the population after 7 hours, given a growth rate of 0.03 per minute and a doubling time of 70 minutes.","<tool_call>
+{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 6000, ""growth_rate"": 0.03, ""time"": 7, ""doubling_time"": 70}}
+</tool_call>","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 6000, ""growth_rate"": 0.03, ""time"": 7, ""doubling_time"": 70}}]","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 6000, ""growth_rate"": 0.03, ""time"": 420, ""doubling_time"": 70}}]",False,False,wrong_args,False
+33890,"Suppose a bacterial colony starts with 2500 bacteria and has a growth rate of 0.5 per hour. If the doubling time is 20 minutes, how many bacteria will there be after 4 hours?","<tool_call>
+{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.5, ""time"": 4, ""doubling_time"": 20}}
+</tool_call>","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.5, ""time"": 4, ""doubling_time"": 20}}]","[{""name"": ""bacterial_growth"", ""arguments"": {""initial_population"": 2500, ""growth_rate"": 0.5, ""time"": 4, ""doubling_time"": 20}}]",True,True,correct,False
+37891,Find the investment return on 8000 dollars at 5.5 percent interest for 10 years and on 10000 dollars at 3.5 percent interest for 7 years.,"<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 8000, ""interest_rate"": 0.055, ""num_years"": 10}}
+</tool_call>
+<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 10000, ""interest_rate"": 0.035, ""num_years"": 7}}
+</tool_call>","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 8000, ""interest_rate"": 0.055, ""num_years"": 10}}, {""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 10000, ""interest_rate"": 0.035, ""num_years"": 7}}]","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 8000, ""interest_rate"": 0.055, ""num_years"": 10}}, {""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 10000, ""interest_rate"": 0.035, ""num_years"": 7}}]",True,True,correct,False
+32101,Estimate the final amount of an investment of $25000 at 5.5% interest for 9 years.,"<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 25000, ""interest_rate"": 0.055, ""num_years"": 9}}
+</tool_call>","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 25000, ""interest_rate"": 0.055, ""num_years"": 9}}]","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 25000, ""interest_rate"": 0.055, ""num_years"": 9}}]",True,True,correct,False
+20561,"If I invest $7500 at 3.5% for 9 years, what will be the final amount?","<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7500, ""interest_rate"": 0.035, ""num_years"": 9}}
+</tool_call>","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7500, ""interest_rate"": 0.035, ""num_years"": 9}}]","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7500, ""interest_rate"": 0.035, ""num_years"": 9}}]",True,True,correct,False
+35042,What will be the accumulated amount after 5 years for an initial deposit of $5000 at an annual interest rate of 3.5%? How about for a deposit of Seven thousand dollars and an interest rate of 4% over 6 years?,"<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 5000, ""interest_rate"": 0.035, ""num_years"": 5}}
+</tool_call>
+<tool_call>
+{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7000, ""interest_rate"": 0.04, ""num_years"": 6}}
+</tool_call>","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 5000, ""interest_rate"": 0.035, ""num_years"": 5}}, {""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7000, ""interest_rate"": 0.04, ""num_years"": 6}}]","[{""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 5000, ""interest_rate"": 0.035, ""num_years"": 5}}, {""name"": ""calculate_investment_return"", ""arguments"": {""initial_amount"": 7000, ""interest_rate"": 0.04, ""num_years"": 6}}]",True,True,correct,False
+20453,"Calculate the standard deviation for a set of prices in dollars: 50, 55, 60, 52, 58.","<tool_call>
+{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [50, 55, 60, 52, 58]}}
+</tool_call>","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [50, 55, 60, 52, 58]}}]","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [50, 55, 60, 52, 58]}}]",True,True,correct,False
+15902,"Determine the standard deviation of a series of temperatures recorded in Celsius: 22, 24, 23, 25, 26.","<tool_call>
+{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [22, 24, 23, 25, 26]}}
+</tool_call>","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [22, 24, 23, 25, 26]}}]","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [22, 24, 23, 25, 26]}}]",True,True,correct,False
+9756,"What is the standard deviation of the test scores for the first class? The scores are 85, 90, 78, 92, and 88.","<tool_call>
+{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [85, 90, 78, 92, 88]}}
+</tool_call>","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [85, 90, 78, 92, 88]}}]","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [85, 90, 78, 92, 88]}}]",True,True,correct,False
+30152,"Determine the standard deviation of a series of percentages: 45, 50, 55, 48, 52.","<tool_call>
+{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [45, 50, 55, 48, 52]}}
+</tool_call>","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [45, 50, 55, 48, 52]}}]","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [45, 50, 55, 48, 52]}}]",True,True,correct,False
+30616,"Compute the standard deviation for the investment returns over the last 10 years, which are 4.5%, 5.2%, 6.1%, 4.9%, 5.3%, 6.2%, 4.8%, 5.4%, 6.3%, 4.7%.","<tool_call>
+{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [4.5, 5.2, 6.1, 4.9, 5.3, 6.2, 4.8, 5.4, 6.3, 4.7]}}
+</tool_call>","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [4.5, 5.2, 6.1, 4.9, 5.3, 6.2, 4.8, 5.4, 6.3, 4.7]}}]","[{""name"": ""calculate_standard_deviation"", ""arguments"": {""numbers"": [4.5, 5.2, 6.1, 4.9, 5.3, 6.2, 4.8, 5.4, 6.3, 4.7]}}]",True,True,correct,False
+41216,"A scientist wants to test if there is a relationship between two categorical variables. She collected data and created a 2x2 contingency table: [[35, 15], [25, 25]]. Can you perform a Chi-Square test for independence with a significance level of 0.1?","<tool_call>
+{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[35, 15], [25, 25]], ""significance_level"": 0.1}}
+</tool_call>","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[35, 15], [25, 25]], ""significance_level"": 0.1}}]","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[35, 15], [25, 25]], ""significance_level"": 0.1}}]",True,True,correct,False
+22457,"Can we reject the null hypothesis at a 1% significance level for a table showing 45 students prefer math and 55 prefer science, with 50 enjoying homework and 50 disliking it?","<tool_call>
+{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[45, 50], [50, 50]], ""significance_level"": 0.01}}
+</tool_call>","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[45, 50], [50, 50]], ""significance_level"": 0.01}}]","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[45, 55], [50, 50]], ""significance_level"": 0.01}}]",False,False,wrong_args,False
+52914,"A psychologist wants to test if there is a significant relationship between a personality trait and a behavior. They have the following data: [[80, 20], [60, 40]]. Perform a Chi-Square test for independence with a significance level of 0.05.","<tool_call>
+{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[80, 20], [60, 40]], ""significance_level"": 0.05}}
+</tool_call>","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[80, 20], [60, 40]], ""significance_level"": 0.05}}]","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[80, 20], [60, 40]], ""significance_level"": 0.05}}]",True,True,correct,False
+17034,"Test the independence of a table where 60 males prefer action movies and 40 prefer comedies, and among females, 30 prefer action and 70 prefer comedies.","<tool_call>
+{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[60, 40], [30, 70]], ""significance_level"": 0.05}}
+</tool_call>","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[60, 40], [30, 70]], ""significance_level"": 0.05}}]","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[60, 40], [30, 70]], ""significance_level"": 0.05}}]",True,True,correct,False
+39023,"Given the contingency table [[100, 75], [75, 100]] and a significance level of 0.1, is there a significant association between two variables?","<tool_call>
+{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[100, 75], [75, 100]], ""significance_level"": 0.1}}
+</tool_call>","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[100, 75], [75, 100]], ""significance_level"": 0.1}}]","[{""name"": ""chi_square_independence_test"", ""arguments"": {""contingency_table"": [[100, 75], [75, 100]], ""significance_level"": 0.1}}]",True,True,correct,False
+7767,"If I have a circular garden with a radius of 3.5 meters, what is the area I need to cover with grass? And what if the radius was 7 meters?","<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 3.5}}
+</tool_call>
+<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 7}}
+</tool_call>","[{""name"": ""circle_area"", ""arguments"": {""radius"": 3.5}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 7}}]","[{""name"": ""circle_area"", ""arguments"": {""radius"": 3.5}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 7}}]",True,True,correct,False
+39278,I have a circle with a radius of π meters. What is its area?,"<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": ""π""}}
+</tool_call>","[{""name"": ""circle_area"", ""arguments"": {""radius"": ""\u03c0""}}]","[{""name"": ""circle_area"", ""arguments"": {""radius"": ""math.pi""}}]",False,False,wrong_args,True
+13659,Determine the area of a circle with a radius of 6 units and another with a radius of 12 units.,"<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 6}}
+</tool_call>
+<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 12}}
+</tool_call>","[{""name"": ""circle_area"", ""arguments"": {""radius"": 6}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 12}}]","[{""name"": ""circle_area"", ""arguments"": {""radius"": 6}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 12}}]",True,True,correct,False
+5367,"Determine the area of a circle whose radius is approximately the same as the height of a standard door, which is about 2 meters.","<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 2.0}}
+</tool_call>","[{""name"": ""circle_area"", ""arguments"": {""radius"": 2.0}}]","[{""name"": ""circle_area"", ""arguments"": {""radius"": 2}}]",True,True,correct,False
+4419,Find the area of circles with radii 4 and 10.,"<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 4}}
+</tool_call>
+<tool_call>
+{""name"": ""circle_area"", ""arguments"": {""radius"": 10}}
+</tool_call>","[{""name"": ""circle_area"", ""arguments"": {""radius"": 4}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 10}}]","[{""name"": ""circle_area"", ""arguments"": {""radius"": 4}}, {""name"": ""circle_area"", ""arguments"": {""radius"": 10}}]",True,True,correct,False
+31879,"What is the flattened version of a list with a mix of integers and lists of integers, such as [1, [2, 3], [4, [5, 6]]]?","<tool_call>
+{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, 3], [4, [5, 6]]]}}
+</tool_call>","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, 3], [4, [5, 6]]]}}]","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, 3], [4, [5, 6]]]}}]",True,True,correct,False
+59673,"Given a list containing numbers and nested lists, flatten it into a single-level list.","<tool_call>
+{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, 2, [3, 4, [5, 6]]]}}
+</tool_call>","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, 2, [3, 4, [5, 6]]]}}]","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, 2, [3, 4, [5, 6]], 7]}}]",False,False,wrong_args,False
+11083,"Flatten a deeply nested list with integers, strings, and other lists within lists.","<tool_call>
+{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [[1, 2], [3, 4], [5, 6]]}}
+</tool_call>","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [[1, 2], [3, 4], [5, 6]]}}]","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [""a"", [2, ""b""], 3], [4, [5, ""c""], 6]]}}]",False,False,wrong_args,False
+19434,"How do I get a flattened list from a complex nested structure like [1, [2, [3, [4, [5]]]]]?","<tool_call>
+{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, [3, [4, [5]]]]]}}
+</tool_call>","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, [3, [4, [5]]]]]}}]","[{""name"": ""flatten_list"", ""arguments"": {""nested_list"": [1, [2, [3, [4, [5]]]]]}}]",True,True,correct,False
+33852,Find the latitude and longitude of the IP address '8.8.8.8'.,"<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}
+</tool_call>","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}]","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}]",True,True,correct,False
+55714,Can you find the latitude and longitude coordinates for IP address '208.80.152.201'?,"<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""208.80.152.201""}}
+</tool_call>","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""208.80.152.201""}}]","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""208.80.152.201""}}]",True,True,correct,False
+40027,"Find the location of the IP addresses 192.168.1.1, 172.217.160.142, and 142.250.187.46 and express the results as a list of tuples.","<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}
+</tool_call>
+<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""172.217.160.142""}}
+</tool_call>
+<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""142.250.187.46""}}
+</tool_call>","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""172.217.160.142""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""142.250.187.46""}}]","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""172.217.160.142""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""142.250.187.46""}}]",True,True,correct,False
+14302,What are the coordinates for IP addresses 8.8.8.8 and 192.168.1.1?,"<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}
+</tool_call>
+<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}
+</tool_call>","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}]","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""8.8.8.8""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""192.168.1.1""}}]",True,True,correct,False
+15682,Can you determine the location for IPs 1.1.1.1 and 2001:4860:4860::8888?,"<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""1.1.1.1""}}
+</tool_call>
+<tool_call>
+{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""2001:4860:4860::8888""}}
+</tool_call>","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""1.1.1.1""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""2001:4860:4860::8888""}}]","[{""name"": ""get_ip_location"", ""arguments"": {""ip"": ""1.1.1.1""}}, {""name"": ""get_ip_location"", ""arguments"": {""ip"": ""2001:4860:4860::8888""}}]",True,True,correct,False
+35155,Is the number 123456789 a sum of the cubes of its digits? What about the number 987654321?,"<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 123456789}}
+</tool_call>
+<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 987654321}}
+</tool_call>","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 123456789}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 987654321}}]","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 123456789}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 987654321}}]",True,True,correct,False
+33763,Is the number 34012226 a sum of the cubes of its digits? What about the number 66430?,"<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 34012226}}
+</tool_call>
+<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 66430}}
+</tool_call>","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 34012226}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 66430}}]","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 34012226}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 66430}}]",True,True,correct,False
+6960,Is 153 a number that is the sum of the cubes of its digits?,"<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}
+</tool_call>","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}]","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}]",True,True,correct,False
+25975,Is the number One million and one (1000001) a sum of the cubes of its digits? What about Ten million and two (1000002)?,"<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000001}}
+</tool_call>
+<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000002}}
+</tool_call>","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000001}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000002}}]","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000001}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 1000002}}]",True,True,correct,False
+13104,"Is 153 a sum of the cubes of its digits? Also, check if 370 and 371 are such numbers.","<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}
+</tool_call>
+<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 370}}
+</tool_call>
+<tool_call>
+{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 371}}
+</tool_call>","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 370}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 371}}]","[{""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 153}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 370}}, {""name"": ""is_sum_of_cubes"", ""arguments"": {""num"": 371}}]",True,True,correct,False
+52161,Check if this email 'jane_doe@@example.net' is valid or not.,"<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""jane_doe@@example.net""}}
+</tool_call>","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""jane_doe@@example.net""}}]","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""jane_doe@@example.net""}}]",True,True,correct,False
+11933,Check if 'admin@domain' and 'admin@domain.' are valid email formats.,"<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain""}}
+</tool_call>
+<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain.""}}
+</tool_call>","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain""}}, {""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain.""}}]","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain""}}, {""name"": ""is_valid_email"", ""arguments"": {""email"": ""admin@domain.""}}]",True,True,correct,False
+29321,Validate 'user@domain.com' and 'user@domain.com.',"<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com""}}
+</tool_call>
+<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com.""}}
+</tool_call>","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com""}}, {""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com.""}}]","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com""}}, {""name"": ""is_valid_email"", ""arguments"": {""email"": ""user@domain.com.""}}]",True,True,correct,False
+39149,I'm not sure if 'alice#wonderland@example.co.uk' is a valid email address. Can you check?,"<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""alice#wonderland@example.co.uk""}}
+</tool_call>","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""alice#wonderland@example.co.uk""}}]","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""alice#wonderland@example.co.uk""}}]",True,True,correct,False
+19662,Is john@doe.example.com valid?,"<tool_call>
+{""name"": ""is_valid_email"", ""arguments"": {""email"": ""john@doe.example.com""}}
+</tool_call>","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""john@doe.example.com""}}]","[{""name"": ""is_valid_email"", ""arguments"": {""email"": ""john@doe.example.com""}}]",True,True,correct,False
+51695,"Can you find out the minimum number of meeting rooms needed for these meetings: [1, 10], [2, 11], [3, 12], [4, 13], [5, 14]?","<tool_call>
+{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 10], [2, 11], [3, 12], [4, 13], [5, 14]]}}
+</tool_call>","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 10], [2, 11], [3, 12], [4, 13], [5, 14]]}}]","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 10], [2, 11], [3, 12], [4, 13], [5, 14]]}}]",True,True,correct,False
+13191,"Calculate the minimum number of rooms required for a complex schedule like [ [1, 8], [2, 5], [3, 6], [4, 7], [5, 8] ]?","<tool_call>
+{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 8], [2, 5], [3, 6], [4, 7], [5, 8]]}}
+</tool_call>","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 8], [2, 5], [3, 6], [4, 7], [5, 8]]}}]","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[1, 8], [2, 5], [3, 6], [4, 7], [5, 8]]}}]",True,True,correct,False
+40333,"I have five meetings to schedule. Their timings are 9:00 AM to 10:00 AM, 9:30 AM to 10:30 AM, 10:00 AM to 11:00 AM, 10:30 AM to 11:30 AM, and 11:00 AM to 12:00 PM. Can you tell me the minimum number of rooms required to conduct these meetings?","<tool_call>
+{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[9, 10], [9.5, 10.5], [10, 11], [10.5, 11.5], [11, 12]]}}
+</tool_call>","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[9, 10], [9.5, 10.5], [10, 11], [10.5, 11.5], [11, 12]]}}]","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[900, 1000], [930, 1030], [1000, 1100], [1030, 1130], [1100, 1200]]}}]",False,False,wrong_args,False
+33909,"Suppose there are meetings with intervals [10,15], [11,16], [12,17], [13,20], [15,22]. What is the minimum number of meeting rooms required?","<tool_call>
+{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[10, 15], [11, 16], [12, 17], [13, 20], [15, 22]]}}
+</tool_call>","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[10, 15], [11, 16], [12, 17], [13, 20], [15, 22]]}}]","[{""name"": ""min_meeting_rooms"", ""arguments"": {""intervals"": [[10, 15], [11, 16], [12, 17], [13, 20], [15, 22]]}}]",True,True,correct,False

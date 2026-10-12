@@ -1,0 +1,4 @@
+# Smaller model, untouched.
+name: s_base_1_7b
+model: Qwen/Qwen3-1.7B
+train: null

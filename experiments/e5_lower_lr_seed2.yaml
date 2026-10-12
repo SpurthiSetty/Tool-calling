@@ -1,0 +1,5 @@
+# e5 repeated with a different training seed (adapter init + batch order), for variance.
+name: e5_lower_lr_seed2
+model: Qwen/Qwen3-4B-Instruct-2507
+data: {drop_noisy: true, normalize_labels: true}
+train: {epochs: 3, mask_prompt: true, learning_rate: 5.0e-5, seed: 2}
