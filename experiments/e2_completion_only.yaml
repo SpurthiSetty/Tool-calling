@@ -1,0 +1,4 @@
+# The main recipe: native tool_calls, loss only on the assistant turn.
+name: e2_completion_only
+model: Qwen/Qwen3-4B-Instruct-2507
+train: {epochs: 3, mask_prompt: true}

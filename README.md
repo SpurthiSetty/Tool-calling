@@ -1,79 +1,118 @@
 # Tool-calling
 
-This repository has code for benchmarking, finetuning and evaluating various small language models for tool calling.
+Fine-tuning small language models to call tools more accurately, and measuring
+whether it actually helped.
 
-## Finetuning Experiments
+The task: given one tool schema and a user query, emit the right
+`<tool_call>{"name": ..., "arguments": {...}}</tool_call>` blocks. The data is
+an [xLAM](https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k)-style
+subset with 10 functions (`circle_area`, `min_meeting_rooms`, `flatten_list`, ...),
+489 training and 211 test queries, and 1-9 calls per answer.
 
-Below is a concise, polished summary of the three finetuning experiments conducted in this repository, including preprocessing choices, training configuration, results, and diagnosis.
+## Results
 
-### Model Training 1 → `test1_finetuned.csv`
+Exact match on the 211-query test set (all calls right, any order). "Clean"
+excludes the 5 test rows whose labels violate their own schema (e.g. a `float`
+radius given as the string `"7 / 2"`). One test row is 0.47 points; the
+standard error at ~90% is about 2 points, so treat single-run gaps under
+~3 points as noise.
 
-Method
+| run | model | test EM | test EM (clean) | valid EM | test format errors |
+|---|---|---|---|---|---|
+| e0_base | Qwen3-4B-Instruct-2507 | 90.05 | 92.23 | 87.23 | 2 |
+| e2_completion_only | Qwen3-4B-Instruct-2507 | 87.2 | 88.83 | 93.62 | 5 |
+| e1_full_loss | Qwen3-4B-Instruct-2507 | 88.63 | 90.29 | 91.49 | 7 |
+| e3_drop_noisy | Qwen3-4B-Instruct-2507 | 90.05 | 92.23 | 91.49 | 5 |
+| e4_consistent_labels | Qwen3-4B-Instruct-2507 | 91.47 | 93.69 | 89.36 | 8 |
+| e5_lower_lr | Qwen3-4B-Instruct-2507 | 92.89 | 95.15 | 91.49 | 3 |
+| e6_one_epoch | Qwen3-4B-Instruct-2507 | 87.68 | 89.81 | 82.98 | 12 |
+| e7_rank16 | Qwen3-4B-Instruct-2507 | 92.89 | 95.15 | 91.49 | 3 |
+| s_base_1_7b | Qwen3-1.7B | 74.88 | 76.7 | 76.6 | 25 |
+| s_ft_1_7b | Qwen3-1.7B | 93.36 | 95.63 | 91.49 | 2 |
+| s_base_0_6b | Qwen3-0.6B | 82.94 | 84.95 | 85.11 | 3 |
+| s_ft_0_6b | Qwen3-0.6B | 91.47 | 93.69 | 89.36 | 3 |
+| e8_synth_flatten | Qwen3-4B-Instruct-2507 | 93.84 | 96.12 | 89.36 | 1 |
 
-- Data preprocessing: Tool calls were formatted manually using explicit `<tool_call>` tags embedded in assistant messages (under `role: "assistant"`, `content`). A chat template was applied with `tokenize=False` and `add_generation_prompt=False`.
+What moved the number, in order of size:
 
-Training configuration
+1. **The old fine-tunes had broken the output format.** Rescored with a strict
+   parser (what vLLM or Ollama would accept), the three original fine-tunes
+   score 3.8%, 1.9% and 1.4%; nearly every reply opened with `</tool_call>`.
+   The old 30/67/72% figures came from a lenient regex that happened to
+   recover some calls. In the new pipeline the template renders the training
+   target and the eval prompt the same way, and the best runs make 0-3 format
+   errors out of 211 (the rest are real JSON slips such as Python's `True`).
+2. **Fine-tuning helps small models most.** Qwen3-1.7B goes from 74.9% to
+   93.4% and Qwen3-0.6B from 82.9% to 91.5%. Both fine-tunes beat the
+   untouched 4B model. Most of the base models' errors were schema violations
+   (`"arguments": [[9, 10], ...]` instead of `{"intervals": ...}`) and answers
+   in prose instead of a call. Fine-tuning removes nearly all of them.
+3. **Conflicting labels get learned and amplified.** 6 of 42 training answers
+   for `min_meeting_rooms` write times as HHMM integers (`[900, 1030]`); the
+   rest use decimal hours (`[9, 10.5]`). After fine-tuning (e2), the 4B model
+   used HHMM *everywhere* and lost 11 test rows to it. Rewriting the 6 labels
+   to one convention (e4) fixed that.
+4. **Small steps beat big ones.** Halving the learning rate (e5) or halving the
+   LoRA scale at a larger rank (e7) both beat e4. A single epoch at the
+   higher rate (e6) was the worst run: an under-trained adapter disrupts the
+   format before it has learned anything.
+5. **Completion-only loss vs full-sequence loss** made little difference here
+   (e1 vs e2); both were within noise of each other.
 
-- A LoRA adapter was created with default settings and attached to the model.
-- `gradient_checkpointing` was enabled to reduce memory usage.
-- Training used the SFT Trainer with the formatted dataset.
+### Caveats
 
-Results / analysis
+- **Pick runs by validation, not test.** The validation split is only 47 rows,
+  so it is too small to rank runs that are close. The e2 → e4 label fix and
+  the e8 augmentation were both motivated by reading test-set errors, so
+  their test scores are optimistic.
+- **Some labels are wrong.** Several "failures" are the model being more
+  sensible than the label: it computes `radius: 3.5` where the label says
+  `"7 / 2"`, or asks for missing scores where the label invents
+  `[95, 92, 98, 90, 94]`. Exact match punishes both.
+- Every run is one seed except where `n=` is shown.
 
-- Performance degraded substantially compared to the base model: ~30% accuracy vs the base ~90% on the same test set.
-- Investigation revealed inconsistent `<tool_call/>` formatting in the training data. The extraction method often missed calls or returned empty lists.
+## Running it
 
-Diagnosis
+Needs an Apple-silicon Mac (training uses [MLX](https://github.com/ml-explore/mlx-lm)).
+A 4B run takes about 16 minutes on an M5 Pro; 0.6B takes about 4.
 
-- The manual `<tool_call>` formatting and some training choices conflicted with the model’s native tool-calling behavior. Those contradictory instructions appear to have led to worse performance despite a reasonable training loss trajectory.
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python -m toolcall.run experiments/e5_lower_lr.yaml   # train + eval
+.venv/bin/python -m toolcall.report                              # leaderboard as markdown
+.venv/bin/python -m pytest tests
+```
 
----
+An experiment is one YAML file in `experiments/`:
 
-### Model Training 2 → `test2_finetuned.csv`
+```yaml
+name: e5_lower_lr
+model: Qwen/Qwen3-4B-Instruct-2507
+data: {drop_noisy: true, normalize_labels: true}   # optional; synth_flatten: N too
+train: {epochs: 3, mask_prompt: true, learning_rate: 5.0e-5}   # null = evaluate the base model
+```
 
-Method
+Anything else under `train` is passed through to `mlx_lm lora` (for example
+`lora_parameters: {rank: 16, scale: 2.0}` or `seed: 1`).
 
-- Data preprocessing: Instead of manual `<tool_call>` markup, JSON was used (via `json.loads`) to provide `expected_calls`. The assistant messages included `tool_calls` entries rather than embedding calls in `content`.
-- Chat template used `tokenize=False` and `add_generation_prompt=False`.
+| Path | What |
+|---|---|
+| `toolcall/data.py` | CSV → chat JSONL with native `tool_calls`; removes leaked rows; train/valid split; label cleaning and augmentation |
+| `toolcall/parsing.py` | strict and lenient `<tool_call>` parsers |
+| `toolcall/metrics.py` | exact match plus one error category per miss: `no_call`, `format`, `wrong_calls`, `wrong_args` |
+| `toolcall/evaluate.py` | batched greedy generation, writes `results/<run>/*_predictions.csv` and `results/leaderboard.csv` |
+| `toolcall/run.py` | one experiment end to end |
+| `data/raw/` | the original train/test CSVs |
+| `notebooks/legacy/`, `results/legacy/` | the original SageMaker notebooks and their outputs |
 
-Training configuration
+## What was wrong with the original pipeline
 
-- Same LoRA adapter setup and `gradient_checkpointing` as in Training 1.
-- Training used the SFT Trainer with this alternative dataset format.
-
-Results / analysis
-
-- Performance improved relative to Training 1 but was still below the base model: ~60% accuracy.
-- Using `tool_calls` rather than embedding calls in `content` aligned better with the Hugging Face tool-calling expectations and reduced empty-call cases.
-- Some data still contained malformed or empty tags (e.g., unmatched open/close markers) that prevented correct extraction of calls.
-
-Diagnosis
-
-- Adopting the `tool_calls` structure reduced formatting errors but did not fully resolve them. Remaining issues in the training data and/or training setup still caused a drop from base performance.
-
----
-
-### Model Training 3 → `test3_finetuned.csv`
-
-Method
-
-- Data preprocessing: Same approach as Training 2 (`tool_calls` via JSON), which is consistent with Hugging Face guidance for tool calling.
-
-Training configuration
-
-- Same LoRA and `gradient_checkpointing` configuration.
-- Added `completion_only_loss=True` to compute loss only over completion tokens. This change was inspired by community examples for Qwen-style instruction tuning and intended to better align the model with completion behavior.
-
-Results / analysis
-
-- Performance improved further but still did not reach the base model: ~72.5% accuracy.
-- Training only on completion tokens provided a measurable benefit, but formatting and remaining data-quality issues persisted.
-
-Diagnosis and takeaways
-
-- The primary limiting factor across experiments appears to be inconsistent or malformed tool-call formatting in the training data. Even when using the expected `tool_calls` structure, some examples produced empty or incorrectly tagged calls.
-- Training tweaks (LoRA, gradient checkpointing, completion-only loss) produced incremental improvements, indicating the training pipeline can be effective if the data format is reliable.
-- Next recommended steps:
-  - Carefully validate and clean the tool-call annotations in the training dataset (automated checks for balanced tags and non-empty calls).
-  - Standardize the data format to match the model/trainer expectations (prefer structured `tool_calls` entries over embedded markup).
-  - Re-run a small-scale experiment after data cleanup to confirm the signal before scaling up.
+- `train_dataset_toolcalling.jsonl` was written through `datasets.Dataset`,
+  which merges all tools' parameter schemas into one struct, so every tool and
+  every call carried `"ip": null, "intervals": null, ...`.
+- 4 test queries were also in the training set.
+- Notebook 3 trained without the system prompt but evaluated with it.
+- `extract_tool_calls` returned `False` on any JSON error and silently skipped
+  calls with a malformed opening tag, so format damage looked like a smaller
+  accuracy loss than it was.
+- There was no validation split, so every choice was made on the test set.

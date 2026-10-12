@@ -1,0 +1,5 @@
+# e4 for a single epoch: val loss bottomed out before epoch 3 in e2.
+name: e6_one_epoch
+model: Qwen/Qwen3-4B-Instruct-2507
+data: {drop_noisy: true, normalize_labels: true}
+train: {epochs: 1, mask_prompt: true}
