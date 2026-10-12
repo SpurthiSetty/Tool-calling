@@ -25,3 +25,7 @@ s_ft_0_6b,valid,Qwen/Qwen3-0.6B,/Users/spurthisetty/Tool-calling/runs/s_ft_0_6b/
 s_ft_0_6b,test,Qwen/Qwen3-0.6B,/Users/spurthisetty/Tool-calling/runs/s_ft_0_6b/adapters,211,91.47,91.47,93.69,206,0,3,2,13,23.2
 e8_synth_flatten,valid,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e8_synth_flatten/adapters,47,89.36,89.36,91.3,46,0,0,0,5,19.4
 e8_synth_flatten,test,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e8_synth_flatten/adapters,211,93.84,93.84,96.12,206,0,1,1,11,103.3
+e5_lower_lr_seed1,valid,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed1/adapters,47,89.36,89.36,91.3,46,0,0,0,5,18.5
+e5_lower_lr_seed1,test,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed1/adapters,211,93.84,93.84,96.12,206,0,2,1,10,84.9
+e5_lower_lr_seed2,valid,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed2/adapters,47,89.36,89.36,91.3,46,0,0,0,5,31.5
+e5_lower_lr_seed2,test,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed2/adapters,211,93.36,93.36,95.63,206,0,2,1,11,146.0

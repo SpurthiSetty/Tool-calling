@@ -4,3 +4,4 @@ __pycache__/
 runs/
 data/processed/
 .DS_Store
+data/xlam/

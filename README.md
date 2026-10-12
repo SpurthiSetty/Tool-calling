@@ -24,7 +24,7 @@ standard error at ~90% is about 2 points, so treat single-run gaps under
 | e1_full_loss | Qwen3-4B-Instruct-2507 | 88.63 | 90.29 | 91.49 | 7 |
 | e3_drop_noisy | Qwen3-4B-Instruct-2507 | 90.05 | 92.23 | 91.49 | 5 |
 | e4_consistent_labels | Qwen3-4B-Instruct-2507 | 91.47 | 93.69 | 89.36 | 8 |
-| e5_lower_lr | Qwen3-4B-Instruct-2507 | 92.89 | 95.15 | 91.49 | 3 |
+| e5_lower_lr | Qwen3-4B-Instruct-2507 | 93.4 ± 0.5 (n=3) | 95.6 ± 0.5 (n=3) | 90.1 ± 1.2 (n=3) | 2.3 ± 0.6 (n=3) |
 | e6_one_epoch | Qwen3-4B-Instruct-2507 | 87.68 | 89.81 | 82.98 | 12 |
 | e7_rank16 | Qwen3-4B-Instruct-2507 | 92.89 | 95.15 | 91.49 | 3 |
 | s_base_1_7b | Qwen3-1.7B | 74.88 | 76.7 | 76.6 | 25 |
@@ -52,7 +52,8 @@ What moved the number, in order of size:
    rest use decimal hours (`[9, 10.5]`). After fine-tuning (e2), the 4B model
    used HHMM *everywhere* and lost 11 test rows to it. Rewriting the 6 labels
    to one convention (e4) fixed that.
-4. **Small steps beat big ones.** Halving the learning rate (e5) or halving the
+4. **Small steps beat big ones.** Halving the learning rate (e5: 93.4% ± 0.5
+   over 3 seeds, vs 90.05% base) or halving the
    LoRA scale at a larger rank (e7) both beat e4. A single epoch at the
    higher rate (e6) was the worst run: an under-trained adapter disrupts the
    format before it has learned anything.
