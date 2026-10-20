@@ -225,9 +225,34 @@ def build(out_dir: Path, drop_noisy: bool, valid_frac: float, seed: int, system_
     return stats
 
 
+XLAM_HELDOUT = ROOT / "data" / "processed" / "xlam_heldout_500.json"
+XLAM_25K_TRAIN = ROOT / "runs" / "x1_xlam_25k_1_7b" / "data" / "train.jsonl"
+
+
+def build_xlam_heldout(n: int = 500, seed: int = 0) -> list[dict]:
+    """A fixed sample of xLAM rows that no run trained on.
+
+    Excludes the repo's train/test queries, the validation rows, and every
+    query in the 24.5k xLAM training set. The tools are not unseen for that
+    run (xLAM reuses ~3,500 functions across all 60k rows), but nearly all
+    are unseen for runs trained on the original 10 functions.
+    """
+    seen = {json.loads(l)["messages"][1]["content"] for l in XLAM_25K_TRAIN.open()}
+    seen |= {r["query"] for r in load_raw("train") + load_raw("test")}
+    seen |= {r["query"] for r in eval_rows("valid")}
+    rows = xlam_rows(seen)
+    rows = random.Random(seed).sample(rows, n)
+    XLAM_HELDOUT.parent.mkdir(parents=True, exist_ok=True)
+    XLAM_HELDOUT.write_text(json.dumps(rows))
+    return rows
+
+
 def eval_rows(split: str, seed: int = 0, valid_frac: float = 0.1) -> list[dict]:
-    """Rows to evaluate on: ``test`` is the held-out CSV, ``valid`` is the carve-out of train."""
-    if split == "test":
+    """Rows to evaluate on: ``test`` is the held-out CSV, ``valid`` is the carve-out of train,
+    ``xlam_heldout`` is 500 xLAM rows that no run trained on."""
+    if split == "xlam_heldout":
+        rows = json.loads(XLAM_HELDOUT.read_text()) if XLAM_HELDOUT.exists() else build_xlam_heldout()
+    elif split == "test":
         rows = load_raw("test")
     else:
         test_queries = {r["query"] for r in load_raw("test")}

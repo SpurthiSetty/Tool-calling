@@ -72,6 +72,8 @@ def evaluate(model_path: str, adapter: str | None, run: str, splits: list[str],
         texts = []
         for i in range(0, len(prompts), batch_size):
             texts += batch_generate(model, tokenizer, prompts[i : i + batch_size], max_tokens=max_tokens).texts
+        # Keep raw outputs first, so a scoring bug never costs a regeneration.
+        (out_dir / f"{split}_raw.json").write_text(json.dumps([{"id": r["id"], "text": t} for r, t in zip(rows, texts)]))
         records = score(rows, texts)
         with (out_dir / f"{split}_predictions.csv").open("w", newline="", encoding="utf-8") as f:
             w = csv.DictWriter(f, fieldnames=list(records[0]))

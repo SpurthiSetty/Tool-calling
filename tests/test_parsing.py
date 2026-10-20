@@ -64,3 +64,8 @@ def test_different_values_stay_different():
     hhmm = [{"name": "m", "arguments": {"intervals": [[1200, 1300]]}}]
     assert not calls_equivalent(hours, hhmm, [{"name": "m", "parameters": {}}])
     assert not calls_equivalent(hours, hours * 2, [{"name": "m", "parameters": {}}])
+
+
+def test_unparseable_literals_stay_strings():
+    assert resolve("{[1, 2]}") == "{[1, 2]}"
+    assert resolve("(" * 500) == "(" * 500

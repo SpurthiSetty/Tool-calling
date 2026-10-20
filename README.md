@@ -76,6 +76,28 @@ What moved the number, in order of size:
 6. **Completion-only loss vs full-sequence loss** made little difference here
    (e1 vs e2); both were within noise of each other.
 
+### Held-out xLAM: does the big run generalize?
+
+Your test set only covers the 10 original functions, so it can't show what
+the 24.5k-row run (x1) learned. `xlam_heldout` is a fixed sample of 500 xLAM
+rows that no run trained on: 75% offer 2-5 tools per prompt, and only 31 touch
+the original 10 functions. The tools are not unseen for x1 (xLAM reuses about
+3,500 functions across all 60k rows, and x1's sample covered nearly all of
+them), but they are unseen for the 438-row model. A strict unseen-tool test
+needs BFCL.
+
+| Qwen3-1.7B | Exact | Semantic | 1 tool offered | 2+ tools offered |
+|---|---|---|---|---|
+| Untouched | 70.4% | 76.2% | 72.8% | 77.3% |
+| Fine-tuned, 438 rows | 72.6% | 78.6% | 80.0% | 78.1% |
+| Fine-tuned, 24.5k xLAM rows | **83.0%** | **86.6%** | **88.8%** | **85.9%** |
+
+(The two right-hand columns are semantic match.) The 24.5k run beats the
+438-row run by 8.0 points (95% CI +5.0 to +11.2, McNemar p < 1e-6). Fine-tuning
+on 10 functions did not hurt broad tool calling (+2.4 over untouched, p = 0.04),
+but it barely helped with prompts offering several tools (+0.8). The extra data
+didn't matter on the 10-function test set, but it mattered here.
+
 ### Caveats
 
 - **Pick runs by validation, not test.** The validation split is only 47 rows,

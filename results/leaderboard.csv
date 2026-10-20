@@ -40,3 +40,6 @@ s_ft_1_7b_seed1,valid,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/s_ft
 s_ft_1_7b_seed1,test,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/s_ft_1_7b_seed1/adapters,211,92.89,92.89,95.15,95.73,206,0,2,2,11,62.9
 s_ft_1_7b_seed2,valid,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/s_ft_1_7b_seed2/adapters,47,91.49,91.49,93.48,93.62,46,0,0,0,4,13.2
 s_ft_1_7b_seed2,test,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/s_ft_1_7b_seed2/adapters,211,92.42,92.42,94.66,95.26,206,0,2,2,12,60.8
+s_base_1_7b,xlam_heldout,Qwen/Qwen3-1.7B,,500,70.4,70.4,71.6,76.2,486,13,3,6,126,218.8
+s_ft_1_7b,xlam_heldout,Qwen/Qwen3-1.7B,runs/s_ft_1_7b/adapters,500,72.6,72.6,73.46,78.6,486,0,1,8,128,297.4
+x1_xlam_25k_1_7b,xlam_heldout,Qwen/Qwen3-1.7B,runs/x1_xlam_25k_1_7b/adapters,500,83.0,83.0,85.39,86.6,486,0,3,3,79,298.2

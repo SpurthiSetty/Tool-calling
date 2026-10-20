@@ -5,3 +5,4 @@ runs/
 data/processed/
 .DS_Store
 data/xlam/
+*_raw.json

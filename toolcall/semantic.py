@@ -62,12 +62,12 @@ def resolve(value):
     text = value.strip()
     try:
         return _arith(ast.parse(text.replace("^", "**"), mode="eval").body)
-    except (SyntaxError, ValueError, TypeError, ZeroDivisionError, OverflowError):
+    except (SyntaxError, ValueError, TypeError, ZeroDivisionError, OverflowError, RecursionError):
         pass
     if text[:1] in "[{(":
         try:
             return ast.literal_eval(text)
-        except (SyntaxError, ValueError):
+        except (SyntaxError, ValueError, TypeError, MemoryError, RecursionError):  # e.g. "{[1, 2]}"
             pass
     return value
 
