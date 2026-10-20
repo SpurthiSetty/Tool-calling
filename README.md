@@ -33,9 +33,9 @@ standard error at ~90% is about 2 points, so treat single-run gaps under
 | e6_one_epoch | Qwen3-4B-Instruct-2507 | 87.68 | 91 | 89.81 | 82.98 | 12 |
 | e7_rank16 | Qwen3-4B-Instruct-2507 | 92.89 | 95.73 | 95.15 | 91.49 | 3 |
 | s_base_1_7b | Qwen3-1.7B | 74.88 | 77.73 | 76.7 | 76.6 | 25 |
-| s_ft_1_7b | Qwen3-1.7B | 93.36 | 96.21 | 95.63 | 91.49 | 2 |
+| s_ft_1_7b | Qwen3-1.7B | 92.9 ± 0.5 (n=3) | 95.7 ± 0.5 (n=3) | 95.1 ± 0.5 (n=3) | 90.8 ± 1.2 (n=3) | 2.0 ± 0.0 (n=3) |
 | s_base_0_6b | Qwen3-0.6B | 82.94 | 85.78 | 84.95 | 85.11 | 3 |
-| s_ft_0_6b | Qwen3-0.6B | 91.47 | 94.31 | 93.69 | 89.36 | 3 |
+| s_ft_0_6b | Qwen3-0.6B | 91.6 ± 0.3 (n=3) | 94.0 ± 1.0 (n=3) | 93.8 ± 0.3 (n=3) | 88.7 ± 1.2 (n=3) | 4.3 ± 1.5 (n=3) |
 | e8_synth_flatten | Qwen3-4B-Instruct-2507 | 93.84 | 97.16 | 96.12 | 89.36 | 1 |
 | x0_xlam_smoke_1_7b | Qwen3-1.7B |  |  |  | 87.23 |  |
 | x1_xlam_25k_1_7b | Qwen3-1.7B | 93.84 | 96.68 | 96.12 | 89.36 | 0 |
@@ -50,7 +50,11 @@ What moved the number, in order of size:
    target and the eval prompt the same way, and the best runs make 0-3 format
    errors out of 211 (the rest are real JSON slips such as Python's `True`).
 2. **Fine-tuning helps small models most.** Qwen3-1.7B goes from 74.9% to
-   93.4% and Qwen3-0.6B from 82.9% to 91.5%. Both fine-tunes beat the
+   92.9% ± 0.5 and Qwen3-0.6B from 82.9% to 91.6% ± 0.3 (3 training seeds each).
+   The untouched 0.6B beating the untouched 1.7B is one tool, not general
+   ability: 1.7B passes `min_meeting_rooms` intervals as bare `arguments`
+   (2/28 right vs 23/28 for 0.6B), and on the other 9 tools it is ahead,
+   85.2% vs 83.1%. Both fine-tunes beat the
    untouched 4B model. Most of the base models' errors were schema violations
    (`"arguments": [[9, 10], ...]` instead of `{"intervals": ...}`) and answers
    in prose instead of a call. Fine-tuning removes nearly all of them.

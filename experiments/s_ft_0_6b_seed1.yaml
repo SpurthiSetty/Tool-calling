@@ -1,0 +1,5 @@
+# s_ft_0_6b repeated with training seed 1, for variance.
+name: s_ft_0_6b_seed1
+model: Qwen/Qwen3-0.6B
+data: {drop_noisy: true, normalize_labels: true}
+train: {epochs: 3, mask_prompt: true, learning_rate: 5.0e-5, seed: 1}
