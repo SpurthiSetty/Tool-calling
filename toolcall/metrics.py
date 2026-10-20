@@ -59,6 +59,7 @@ def summarize(records: list[dict]) -> dict:
         "exact_match": pct("match", records),
         "exact_match_lenient": pct("match_lenient", records),
         "exact_match_clean": pct("match", clean),
+        "semantic_match": pct("match_semantic", records),
         "n_clean": len(clean),
         **{f"err_{k}": cats.get(k, 0) for k in ("no_call", "format", "wrong_calls", "wrong_args")},
     }

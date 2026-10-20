@@ -17,6 +17,7 @@ from pathlib import Path
 from .data import ROOT, SYSTEM_PROMPT, eval_rows, to_chat
 from .metrics import calls_equal, categorize, summarize
 from .parsing import parse_lenient, parse_strict
+from .semantic import calls_equivalent
 
 LEADERBOARD = ROOT / "results" / "leaderboard.csv"
 
@@ -48,6 +49,7 @@ def score(rows: list[dict], texts: list[str]) -> list[dict]:
                 "expected_calls": json.dumps(r["answers"]),
                 "match": strict is not None and calls_equal(strict, r["answers"]),
                 "match_lenient": calls_equal(lenient, r["answers"]),
+                "match_semantic": strict is not None and calls_equivalent(strict, r["answers"], r["tools"]),
                 "category": categorize(text, strict, r["answers"]),
                 "noisy": r["noisy"],
             }

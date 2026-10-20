@@ -13,27 +13,32 @@ subset with 10 functions (`circle_area`, `min_meeting_rooms`, `flatten_list`, ..
 
 Exact match on the 211-query test set (all calls right, any order). "Clean"
 excludes the 5 test rows whose labels violate their own schema (e.g. a `float`
-radius given as the string `"7 / 2"`). One test row is 0.47 points; the
+radius given as the string `"7 / 2"`). "Semantic" counts a call as correct
+when it is equivalent to the label: arithmetic strings are evaluated
+(`"7 / 2"` == `3.5`), numbers compare with a 1e-6 tolerance, and leaving out a
+parameter equals passing its documented default. Different values stay
+different, so `[12, 13]` vs `[1200, 1300]` meeting times still count as wrong
+(`toolcall/semantic.py`). One test row is 0.47 points; the
 standard error at ~90% is about 2 points, so treat single-run gaps under
 ~3 points as noise.
 
-| run | model | test EM | test EM (clean) | valid EM | test format errors |
-|---|---|---|---|---|---|
-| e0_base | Qwen3-4B-Instruct-2507 | 90.05 | 92.23 | 87.23 | 2 |
-| e2_completion_only | Qwen3-4B-Instruct-2507 | 87.2 | 88.83 | 93.62 | 5 |
-| e1_full_loss | Qwen3-4B-Instruct-2507 | 88.63 | 90.29 | 91.49 | 7 |
-| e3_drop_noisy | Qwen3-4B-Instruct-2507 | 90.05 | 92.23 | 91.49 | 5 |
-| e4_consistent_labels | Qwen3-4B-Instruct-2507 | 91.47 | 93.69 | 89.36 | 8 |
-| e5_lower_lr | Qwen3-4B-Instruct-2507 | 93.4 ± 0.5 (n=3) | 95.6 ± 0.5 (n=3) | 90.1 ± 1.2 (n=3) | 2.3 ± 0.6 (n=3) |
-| e6_one_epoch | Qwen3-4B-Instruct-2507 | 87.68 | 89.81 | 82.98 | 12 |
-| e7_rank16 | Qwen3-4B-Instruct-2507 | 92.89 | 95.15 | 91.49 | 3 |
-| s_base_1_7b | Qwen3-1.7B | 74.88 | 76.7 | 76.6 | 25 |
-| s_ft_1_7b | Qwen3-1.7B | 93.36 | 95.63 | 91.49 | 2 |
-| s_base_0_6b | Qwen3-0.6B | 82.94 | 84.95 | 85.11 | 3 |
-| s_ft_0_6b | Qwen3-0.6B | 91.47 | 93.69 | 89.36 | 3 |
-| e8_synth_flatten | Qwen3-4B-Instruct-2507 | 93.84 | 96.12 | 89.36 | 1 |
-| x0_xlam_smoke_1_7b | Qwen3-1.7B |  |  | 87.23 |  |
-| x1_xlam_25k_1_7b | Qwen3-1.7B | 93.84 | 96.12 | 89.36 | 0 |
+| run | model | test EM | test semantic | test EM (clean) | valid EM | test format errors |
+|---|---|---|---|---|---|---|
+| e0_base | Qwen3-4B-Instruct-2507 | 90.05 | 93.36 | 92.23 | 87.23 | 2 |
+| e2_completion_only | Qwen3-4B-Instruct-2507 | 87.2 | 90.05 | 88.83 | 93.62 | 5 |
+| e1_full_loss | Qwen3-4B-Instruct-2507 | 88.63 | 91.47 | 90.29 | 91.49 | 7 |
+| e3_drop_noisy | Qwen3-4B-Instruct-2507 | 90.05 | 93.36 | 92.23 | 91.49 | 5 |
+| e4_consistent_labels | Qwen3-4B-Instruct-2507 | 91.47 | 94.31 | 93.69 | 89.36 | 8 |
+| e5_lower_lr | Qwen3-4B-Instruct-2507 | 93.4 ± 0.5 (n=3) | 96.2 ± 0.5 (n=3) | 95.6 ± 0.5 (n=3) | 90.1 ± 1.2 (n=3) | 2.3 ± 0.6 (n=3) |
+| e6_one_epoch | Qwen3-4B-Instruct-2507 | 87.68 | 91 | 89.81 | 82.98 | 12 |
+| e7_rank16 | Qwen3-4B-Instruct-2507 | 92.89 | 95.73 | 95.15 | 91.49 | 3 |
+| s_base_1_7b | Qwen3-1.7B | 74.88 | 77.73 | 76.7 | 76.6 | 25 |
+| s_ft_1_7b | Qwen3-1.7B | 93.36 | 96.21 | 95.63 | 91.49 | 2 |
+| s_base_0_6b | Qwen3-0.6B | 82.94 | 85.78 | 84.95 | 85.11 | 3 |
+| s_ft_0_6b | Qwen3-0.6B | 91.47 | 94.31 | 93.69 | 89.36 | 3 |
+| e8_synth_flatten | Qwen3-4B-Instruct-2507 | 93.84 | 97.16 | 96.12 | 89.36 | 1 |
+| x0_xlam_smoke_1_7b | Qwen3-1.7B |  |  |  | 87.23 |  |
+| x1_xlam_25k_1_7b | Qwen3-1.7B | 93.84 | 96.68 | 96.12 | 89.36 | 0 |
 
 What moved the number, in order of size:
 
@@ -107,6 +112,8 @@ Anything else under `train` is passed through to `mlx_lm lora` (for example
 |---|---|
 | `toolcall/data.py` | CSV → chat JSONL with native `tool_calls`; removes leaked rows; train/valid split; label cleaning and augmentation |
 | `toolcall/parsing.py` | strict and lenient `<tool_call>` parsers |
+| `toolcall/semantic.py` | semantic match: equivalence rules for argument values and defaults |
+| `toolcall/rescore.py` | re-score saved predictions with the current metrics, no regeneration |
 | `toolcall/metrics.py` | exact match plus one error category per miss: `no_call`, `format`, `wrong_calls`, `wrong_args` |
 | `toolcall/evaluate.py` | batched greedy generation, writes `results/<run>/*_predictions.csv` and `results/leaderboard.csv` |
 | `toolcall/run.py` | one experiment end to end |

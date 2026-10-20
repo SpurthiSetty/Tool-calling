@@ -14,7 +14,8 @@ from collections import defaultdict
 
 from .evaluate import LEADERBOARD
 
-COLS = [("test", "exact_match"), ("test", "exact_match_clean"), ("valid", "exact_match"), ("test", "err_format")]
+COLS = [("test", "exact_match"), ("test", "semantic_match"), ("test", "exact_match_clean"), ("valid", "exact_match"),
+        ("test", "err_format")]
 
 
 def main() -> None:
@@ -37,8 +38,8 @@ def main() -> None:
             return f"{mean:g}"
         return f"{mean:.1f} ± {statistics.stdev(vals):.1f} (n={len(vals)})"
 
-    print("| run | model | test EM | test EM (clean) | valid EM | test format errors |")
-    print("|---|---|---|---|---|---|")
+    print("| run | model | test EM | test semantic | test EM (clean) | valid EM | test format errors |")
+    print("|---|---|---|---|---|---|---|")
     for name, vals in groups.items():
         print(f"| {name} | {models[name]} | " + " | ".join(cell(vals[c]) for c in COLS) + " |")
 
