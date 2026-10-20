@@ -1,0 +1,6 @@
+# Sanity check before the full run: 200 steps on xLAM, to confirm loss behaves.
+name: x0_xlam_smoke_1_7b
+model: Qwen/Qwen3-1.7B
+data: {source: xlam, drop_noisy: true, normalize_labels: true, limit: 800}
+train: {epochs: 1, mask_prompt: true, learning_rate: 5.0e-5}
+splits: [valid]

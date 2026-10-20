@@ -57,7 +57,8 @@ def run(path: Path) -> dict:
     if exp.get("train") is not None:
         data_dir = run_dir / "data"
         stats = build(data_dir, data_cfg.get("drop_noisy", False), 0.1, 0, system_prompt,
-                      data_cfg.get("normalize_labels", False), data_cfg.get("synth_flatten", 0))
+                      data_cfg.get("normalize_labels", False), data_cfg.get("synth_flatten", 0),
+                      data_cfg.get("source", "repo"), data_cfg.get("limit"))
         train = {**TRAIN_DEFAULTS, **exp["train"]}
         train["lora_parameters"] = {**TRAIN_DEFAULTS["lora_parameters"], **exp["train"].get("lora_parameters", {})}
         epochs = train.pop("epochs", 3)

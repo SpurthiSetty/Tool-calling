@@ -1,0 +1,6 @@
+# The e5 recipe on a random 25k of xLAM-60k (one pass), minus the test and
+# validation queries. The full 58.5k would take ~20 h on an M5 Pro.
+name: x1_xlam_25k_1_7b
+model: Qwen/Qwen3-1.7B
+data: {source: xlam, drop_noisy: true, normalize_labels: true, limit: 25000}
+train: {epochs: 1, mask_prompt: true, learning_rate: 5.0e-5, save_every: 1000, steps_per_eval: 1000}

@@ -32,6 +32,8 @@ standard error at ~90% is about 2 points, so treat single-run gaps under
 | s_base_0_6b | Qwen3-0.6B | 82.94 | 84.95 | 85.11 | 3 |
 | s_ft_0_6b | Qwen3-0.6B | 91.47 | 93.69 | 89.36 | 3 |
 | e8_synth_flatten | Qwen3-4B-Instruct-2507 | 93.84 | 96.12 | 89.36 | 1 |
+| x0_xlam_smoke_1_7b | Qwen3-1.7B |  |  | 87.23 |  |
+| x1_xlam_25k_1_7b | Qwen3-1.7B | 93.84 | 96.12 | 89.36 | 0 |
 
 What moved the number, in order of size:
 
@@ -57,7 +59,12 @@ What moved the number, in order of size:
    LoRA scale at a larger rank (e7) both beat e4. A single epoch at the
    higher rate (e6) was the worst run: an under-trained adapter disrupts the
    format before it has learned anything.
-5. **Completion-only loss vs full-sequence loss** made little difference here
+5. **56× more data didn't move the in-distribution score.** Training 1.7B on
+   24.5k rows of the wider xLAM-60k set (x1, ~1,800 functions) scored 93.8%,
+   level with 93.4% from the 438 original rows, with zero format errors. The
+   extra data's value would show on unseen tools, which this test set can't
+   measure.
+6. **Completion-only loss vs full-sequence loss** made little difference here
    (e1 vs e2); both were within noise of each other.
 
 ### Caveats

@@ -28,6 +28,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RAW = ROOT / "data" / "raw"
+XLAM = ROOT / "data" / "xlam" / "xlam_function_calling_60k.json"
 
 SYSTEM_PROMPT = "You are a helpful assistant that uses the provided tools to answer."
 
@@ -172,8 +173,19 @@ def write_jsonl(path: Path, rows: list[dict]) -> None:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 
+def xlam_rows(exclude: set[str]) -> list[dict]:
+    """All of xLAM-60k (the set the repo's 700 rows were sampled from), minus ``exclude`` queries."""
+    rows = []
+    for x in json.loads(XLAM.read_text()):
+        if x["query"] not in exclude:
+            rows.append({"id": x["id"], "query": x["query"],
+                         "tools": json.loads(x["tools"]), "answers": json.loads(x["answers"])})
+    return rows
+
+
 def build(out_dir: Path, drop_noisy: bool, valid_frac: float, seed: int, system_prompt: str | None,
-          normalize: bool = False, synth_flatten_n: int = 0) -> dict:
+          normalize: bool = False, synth_flatten_n: int = 0, source: str = "repo",
+          limit: int | None = None) -> dict:
     train_raw, test_raw = load_raw("train"), load_raw("test")
     test_queries = {r["query"] for r in test_raw}
     leaked = [r for r in train_raw if r["query"] in test_queries]
@@ -181,6 +193,12 @@ def build(out_dir: Path, drop_noisy: bool, valid_frac: float, seed: int, system_
 
     # Split before filtering so every experiment is scored on the same validation rows.
     train, valid = split_train_valid(train_raw, valid_frac, seed)
+    if source == "xlam":
+        # Train on everything else in xLAM; validation and test rows stay held out.
+        train = xlam_rows(test_queries | {r["query"] for r in valid})
+        random.Random(seed).shuffle(train)
+    if limit:
+        train = train[:limit]
     noisy = [r for r in train if is_noisy(r)]
     if drop_noisy:
         train = [r for r in train if not is_noisy(r)]
@@ -201,6 +219,7 @@ def build(out_dir: Path, drop_noisy: bool, valid_frac: float, seed: int, system_
         "noisy_in_train": len(noisy),
         "dropped_noisy": len(noisy) if drop_noisy else 0,
         "synthetic": synth_flatten_n,
+        "source": source,
     }
     (out_dir / "stats.json").write_text(json.dumps(stats, indent=2))
     return stats

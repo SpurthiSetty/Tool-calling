@@ -29,3 +29,6 @@ e5_lower_lr_seed1,valid,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-cal
 e5_lower_lr_seed1,test,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed1/adapters,211,93.84,93.84,96.12,206,0,2,1,10,84.9
 e5_lower_lr_seed2,valid,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed2/adapters,47,89.36,89.36,91.3,46,0,0,0,5,31.5
 e5_lower_lr_seed2,test,Qwen/Qwen3-4B-Instruct-2507,/Users/spurthisetty/Tool-calling/runs/e5_lower_lr_seed2/adapters,211,93.36,93.36,95.63,206,0,2,1,11,146.0
+x0_xlam_smoke_1_7b,valid,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/x0_xlam_smoke_1_7b/adapters,47,87.23,87.23,89.13,46,0,1,0,5,23.7
+x1_xlam_25k_1_7b,valid,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/x1_xlam_25k_1_7b/adapters,47,89.36,89.36,91.3,46,0,2,0,3,25.8
+x1_xlam_25k_1_7b,test,Qwen/Qwen3-1.7B,/Users/spurthisetty/Tool-calling/runs/x1_xlam_25k_1_7b/adapters,211,93.84,93.84,96.12,206,0,0,2,11,60.5
